@@ -1,7 +1,36 @@
 ﻿
+@model ParkingSystem.ParkingLog
+
 @{
     ViewBag.Title = "EntryGate";
 }
 
-<h2>EntryGate</h2>
+@using (Html.BeginForm("TrackEntry", "Parking", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Parking System Login page</legend>
 
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @if (@ViewBag.Message != null)
+        {
+            <div style="border: 1px solid red">
+                @ViewBag.Message
+            </div>
+        }
+        <table>
+            <tr>
+                <td>@Html.LabelFor(a => a.PlateNumber)</td>
+                <td>@Html.TextBoxFor(a => a.PlateNumber)</td>
+                <td>@Html.ValidationMessageFor(a => a.PlateNumber)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Login" />
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </fieldset>
+}

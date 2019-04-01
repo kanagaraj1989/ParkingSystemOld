@@ -101,6 +101,7 @@
     <Content Include="Content\Site.css" />
     <None Include="DB\Account_schema.sql" />
     <None Include="DB\AdminUser_insert_schema.sql" />
+    <None Include="DB\ParkingTracker.sql" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="ParkingModel.Context.tt">
@@ -136,6 +137,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ParkingGateType.cs" />
+    <Compile Include="ParkingLog.cs">
+      <DependentUpon>ParkingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ParkingModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

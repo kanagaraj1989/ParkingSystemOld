@@ -9,9 +9,9 @@ namespace ParkingSystem.Controllers
     public class ParkingController : Controller
     {
         // GET: Parking
-        public ActionResult EntryGate()
+        public ActionResult EntryGate(ParkingLog parkingLog)
         {
-            return View();
+            return View(parkingLog);
         }
 
         public ActionResult OutGate()

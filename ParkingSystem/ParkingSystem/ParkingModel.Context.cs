@@ -13,10 +13,10 @@ namespace ParkingSystem
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ParkingEntity : DbContext
+    public partial class ParkingEntities : DbContext
     {
-        public ParkingEntity()
-            : base("name=ParkingEntity")
+        public ParkingEntities()
+            : base("name=ParkingEntities")
         {
         }
     
@@ -25,6 +25,7 @@ namespace ParkingSystem
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ParkingLog> ParkingLogs { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
     }
 }

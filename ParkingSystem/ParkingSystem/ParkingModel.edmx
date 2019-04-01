@@ -5,6 +5,28 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="ParkingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ParkingLogs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OUTAgentMACID" Type="varchar" MaxLength="50" />
+          <Property Name="INAgentMACID" Type="varchar" MaxLength="50" />
+          <Property Name="SessionID" Type="varchar" MaxLength="100" />
+          <Property Name="PlateNumber" Type="varchar" MaxLength="30" />
+          <Property Name="imagecdn" Type="varchar" MaxLength="100" />
+          <Property Name="TimeStamp" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Parking.dbo.ParkingTracker' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="ParkingTracker">
+          <Property Name="OUTAgentMACID" Type="varchar" MaxLength="50" />
+          <Property Name="INAgentMACID" Type="varchar" MaxLength="50" />
+          <Property Name="SessionID" Type="varchar" MaxLength="100" />
+          <Property Name="PlateNumber" Type="varchar" MaxLength="30" />
+          <Property Name="imagecdn" Type="varchar" MaxLength="100" />
+          <Property Name="TimeStamp" Type="datetime" />
+        </EntityType>-->
         <EntityType Name="UserProfile">
           <Key>
             <PropertyRef Name="UserId" />
@@ -16,6 +38,7 @@
           <Property Name="UserType" Type="int" />
         </EntityType>
         <EntityContainer Name="ParkingModelStoreContainer">
+          <EntitySet Name="ParkingLogs" EntityType="Self.ParkingLogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
@@ -23,6 +46,18 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ParkingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ParkingLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OUTAgentMACID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="INAgentMACID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SessionID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PlateNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="imagecdn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="UserProfile">
           <Key>
             <PropertyRef Name="UserId" />
@@ -33,7 +68,8 @@
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="UserType" Type="Int32" />
         </EntityType>
-        <EntityContainer Name="ParkingEntity" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ParkingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ParkingLogs" EntityType="Self.ParkingLog" />
           <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
         </EntityContainer>
       </Schema>
@@ -41,7 +77,20 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ParkingModelStoreContainer" CdmEntityContainer="ParkingEntity">
+        <EntityContainerMapping StorageEntityContainer="ParkingModelStoreContainer" CdmEntityContainer="ParkingEntities">
+          <EntitySetMapping Name="ParkingLogs">
+            <EntityTypeMapping TypeName="ParkingModel.ParkingLog">
+              <MappingFragment StoreEntitySet="ParkingLogs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OUTAgentMACID" ColumnName="OUTAgentMACID" />
+                <ScalarProperty Name="INAgentMACID" ColumnName="INAgentMACID" />
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+                <ScalarProperty Name="PlateNumber" ColumnName="PlateNumber" />
+                <ScalarProperty Name="imagecdn" ColumnName="imagecdn" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UserProfiles">
             <EntityTypeMapping TypeName="ParkingModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">

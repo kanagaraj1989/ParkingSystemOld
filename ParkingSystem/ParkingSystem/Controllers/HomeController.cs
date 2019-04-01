@@ -20,7 +20,7 @@ namespace ParkingSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (ParkingEntity db = new ParkingEntity())
+                using (ParkingEntities db = new ParkingEntities())
                 {
                     var obj = db.UserProfiles.Where(a => a.UserName.Equals(objUser.UserName) && a.Password.Equals(objUser.Password)).FirstOrDefault();
                     if (obj != null)
@@ -61,7 +61,7 @@ namespace ParkingSystem.Controllers
                 });
                 parkingGateList.Add(new SelectListItem
                 {
-                    Text = "Entry Gate",
+                    Text = "Out Gate",
                     Value = "3"
                 });
                 ViewData["GateList"] = parkingGateList;
@@ -76,6 +76,25 @@ namespace ParkingSystem.Controllers
         public ActionResult Logout() {
             Session.Clear();
             return RedirectToAction("Login");
+        }
+
+        public ActionResult CreateGate(UserProfile objUser)
+        {
+            if (ModelState.IsValid)
+            {
+                using (ParkingEntities db = new ParkingEntities())
+                {
+                    var obj = db.UserProfiles.Where(a => a.UserName.Equals(objUser.UserName) && a.Password.Equals(objUser.Password)).FirstOrDefault();
+                    if (obj == null)
+                    {
+                        objUser.IsActive = true;
+                        db.UserProfiles.Add(objUser);
+                        db.SaveChanges();
+                        return RedirectToAction("AdminUserDashBoard");
+                    }
+                }
+            }
+            return View(objUser);
         }
     }
 }
